@@ -1,8 +1,10 @@
+import {InjectionToken} from '@angular/core';
+
 export interface Image {
   name: string;
   url: string;
 }
-export interface DialogConfig {
+export class DialogConfig {
   panelClass?: string;
   hasBackdrop?: boolean;
   backdropClass?: string;
@@ -14,3 +16,5 @@ export const DEFAULT_CONFIG: DialogConfig = {
   backdropClass: 'dark-backdrop',
   panelClass: 'tm-file-preview-dialog-panel'
 };
+
+export const DIALOG_DATA = new InjectionToken<Image>('DIALOG_DATA');

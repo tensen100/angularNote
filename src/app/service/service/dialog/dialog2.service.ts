@@ -1,22 +1,25 @@
-// import {Injectable, InjectionToken, Injector} from '@angular/core';
-// import {Overlay, OverlayConfig, OverlayRef} from '@angular/cdk/overlay';
-// import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
-// import {DialogOverlayRef} from './dialogOveryRef';
-// import {DEFAULT_CONFIG, DialogConfig, DIALOG_DATA} from './dialogConfig';
+// import { Injectable, Injector} from '@angular/core';
+// import { Overlay, OverlayConfig, OverlayRef} from '@angular/cdk/overlay';
+// import { ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+// import { DialogOverlayRef} from './dialogOveryRef';
+// import { DEFAULT_CONFIG, DialogConfig, DIALOG_DATA} from './dialogConfig';
+// import { DialogContainerComponent } from '../../../share/components/dialog-container/dialog-container.component';
+//
 //
 // @Injectable()
-// export class DialogService {
+// export class Dialog2Service {
 //
 //   constructor(
 //     private overlay: Overlay,
 //     private injector: Injector
 //   ) {}
-//   open(component, config: DialogConfig = {}) {
+//   open(config: DialogConfig = {}) {
 //     const dialogConfig = {...DEFAULT_CONFIG, ...config};
 //
 //     const overlayRef = this.createOverlay(dialogConfig);
 //     const dialogRef = new DialogOverlayRef(overlayRef);
-//     this.attachDialogContainer(component, overlayRef, config, dialogRef);
+//     const overlyComponent = this.attachDialogContainer(overlayRef, dialogConfig, dialogRef);
+//     dialogRef.componentInstance = overlyComponent;
 //     return dialogRef;
 //   }
 //
@@ -68,12 +71,12 @@
 //   }
 //
 //   // 创建注入器和组件入口 ，并将入口连接到host
-//   private attachDialogContainer(component, overlayRef: OverlayRef, config: DialogConfig, dialogRef: DialogOverlayRef) {
+//   private attachDialogContainer(overlayRef: OverlayRef, config: DialogConfig, dialogRef: DialogOverlayRef) {
 //
 //     overlayRef.backdropClick().subscribe(_ => dialogRef.close());
 //
 //     const injector = this.createInjector(config, dialogRef);
-//     const containerPortal = new ComponentPortal(component, null, injector);
+//     const containerPortal = new ComponentPortal(DialogContainerComponent, null, injector);
 //     const containerRef = overlayRef.attach(containerPortal);
 //     return containerRef.instance;
 //   }

@@ -5,6 +5,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ShareModule } from '../share/share.module';
 import { ServiceModule } from '../service/service.module';
 import { AppRoutingModule } from '../app.routing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CdkPortalOutlet, PortalModule} from '@angular/cdk/portal';
 
 @NgModule({
   imports: [
@@ -12,9 +14,10 @@ import { AppRoutingModule } from '../app.routing';
     // HttpModule,
     AppRoutingModule,
     BrowserModule,
-    OverlayModule,
     ShareModule,
+    OverlayModule,
     ServiceModule.forRoot(),
+    BrowserAnimationsModule
   ],
   exports: [
     AppRoutingModule

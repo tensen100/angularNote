@@ -1,2 +1,8 @@
-<h1>Hello Confirm</h1>
-<button (click)="dialogRef.close()">关闭</button>
+<div>
+  <h1>{{data.name}}</h1>
+  <img
+    [style.opacity]="loading ? 0:1"
+    (load)="onLoad()"
+    [src]="data.url">
+</div>
+
