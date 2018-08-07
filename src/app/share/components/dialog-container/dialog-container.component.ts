@@ -6,7 +6,7 @@ import {
   EmbeddedViewRef,
   OnInit,
   ElementRef,
-  ComponentFactoryResolver, ApplicationRef, Injector, ViewEncapsulation, ChangeDetectionStrategy
+  ComponentFactoryResolver, ApplicationRef, Injector, ViewEncapsulation, ChangeDetectionStrategy, HostBinding, HostListener
 } from '@angular/core';
 import { animate, state, style, transition, trigger, AnimationEvent } from '@angular/animations';
 import {
@@ -16,9 +16,9 @@ import {
   TemplatePortal,
 } from '@angular/cdk/portal';
 
-
-// ESC键码
-const ESCAPE = 27;
+export function throwMatDialogContentAlreadyAttachedError() {
+  throw Error('Attempting to attach dialog content after content is already attached');
+}
 
 @Component({
   selector: 'app-dialog-container',
@@ -30,56 +30,44 @@ const ESCAPE = 27;
     trigger('slideDialog', [
       state('void', style({ transform: 'translate3d(0, 25%, 0) scale(0.9)', opacity: 0 })),
       state('enter', style({ transform: 'none', opacity: 1 })),
-      state('leave', style({ transform: 'translate3d(0, 25%, 0)', opacity: 0 })),
+      state('exit', style({ transform: 'translate3d(0, 25%, 0)', opacity: 0 })),
       transition('* => *', animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')),
     ])
   ],
   host: {
     'class': 'dialog-container',
     '[@slideDialog]': 'animationState',
-    '(@slideDialog.start)': 'onAnimationStart($event)',
-    '(@slideDialog.done)': 'onAnimationDone($event)',
   }
 })
 export class DialogContainerComponent extends BasePortalOutlet {
-  @ViewChild(CdkPortalOutlet) portalOutlet: CdkPortalOutlet;
-  animationState: 'void' | 'enter' | 'leave' = 'enter';
+  animationState: 'void' | 'enter' | 'exit' = 'enter';
   animationStateChanged = new EventEmitter<AnimationEvent>();
-  // @HostListener('document:keydown', ['$event'])
-  // private handleKeydown(event: KeyboardEvent) {
-  //   if (event.keyCode === ESCAPE ) {
-  //     this.dialogRef.close();
-  //   }
-  // }
+  @ViewChild(CdkPortalOutlet) private _portalOutlet: CdkPortalOutlet;
+
+  @HostListener('@slideDialog.start', ['$event'])
   onAnimationStart(event) {
-    console.log('start')
     this.animationStateChanged.emit(event);
   }
+  @HostListener('@slideDialog.done', ['$event'])
   onAnimationDone(event) {
-    console.log('done')
     this.animationStateChanged.emit(event);
   }
   startExitAnimation() {
-    this.animationState = 'leave';
+    this.animationState = 'exit';
   }
 
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
-    // if (this._portalOutlet.hasAttached()) {
-    //   throwMatDialogContentAlreadyAttachedError();
-    // }
-
-    // this._savePreviouslyFocusedElement();
-    console.log(this.portalOutlet); // undefined
-    return this.portalOutlet.attachComponentPortal(portal);
+    if (this._portalOutlet.hasAttached()) {
+      throwMatDialogContentAlreadyAttachedError();
+    }
+    return this._portalOutlet.attachComponentPortal(portal);
   }
 
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
-    // if (this._portalOutlet.hasAttached()) {
-    //   throwMatDialogContentAlreadyAttachedError();
-    // }
-
-    // this._savePreviouslyFocusedElement();
-    return this.portalOutlet.attachTemplatePortal(portal);
+    if (this._portalOutlet.hasAttached()) {
+      throwMatDialogContentAlreadyAttachedError();
+    }
+    return this._portalOutlet.attachTemplatePortal(portal);
   }
 
 }
