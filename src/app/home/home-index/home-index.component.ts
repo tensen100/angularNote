@@ -1,7 +1,5 @@
 import { Component} from '@angular/core';
-import { ConfirmComponent} from '../../share/components/confirm/confirm.component';
-import { DialogOverlayRef} from '../../service/service/dialog/dialogOveryRef';
-import { Dialog3Service} from '../../service/service/dialog/dialog3.service';
+import {Confirm, DialogRef, DialogService} from '../../share/module/dialog';
 
 
 @Component({
@@ -10,22 +8,26 @@ import { Dialog3Service} from '../../service/service/dialog/dialog3.service';
   styleUrls: ['./home-index.component.less']
 })
 export class HomeIndexComponent {
-  constructor(private dialog: Dialog3Service) { }
-
-  open() {
-    const ref: DialogOverlayRef<ConfirmComponent> = this.dialog.open(ConfirmComponent, {
-      data: {name: '图片', url: '/assets/images/1.jpg'}
-    });
-    ref.beforeClosed().subscribe( msg => {
-      console.log('---> beforeClose');
-      console.log(msg);
-    });
-    ref.afterClosed().subscribe( msg => {
-      console.log('---> afterClose');
-      console.log(msg);
-    });
-    ref.afterOpen().subscribe( _ => {
-      console.log('---> afterOpen');
-    });
+  constructor(private dialog: DialogService) { }
+  open() {}
+  confirm() {
+    const data: Confirm = {
+      title: 'confirm',
+      content: 'this is a Confirm',
+      sure: () => { console.log('confirm sure !'); },
+      cancel: () => { console.log('confirm cancel !'); }
+    };
+    this.dialog.confirm(data);
+  }
+  alert() {
+    const data: Confirm = {
+      title: 'confirm',
+      content: 'this is a Confirm',
+      sure: () => { console.log('confirm sure !'); },
+    };
+    this.dialog.confirm(data);
+  }
+  tips() {
+    this.dialog.tips('this is a tips !!');
   }
 }

@@ -15,6 +15,7 @@ import {
   CdkPortalOutlet,
   TemplatePortal,
 } from '@angular/cdk/portal';
+import {DialogConfig} from '../dialogConfig';
 
 export function throwMatDialogContentAlreadyAttachedError() {
   throw Error('Attempting to attach dialog content after content is already attached');
@@ -43,6 +44,9 @@ export class DialogContainerComponent extends BasePortalOutlet {
   animationState: 'void' | 'enter' | 'exit' = 'enter';
   animationStateChanged = new EventEmitter<AnimationEvent>();
   @ViewChild(CdkPortalOutlet) private _portalOutlet: CdkPortalOutlet;
+  constructor(public config: DialogConfig) {
+    super();
+  }
 
   @HostListener('@slideDialog.start', ['$event'])
   onAnimationStart(event) {

@@ -3,33 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
-import { ConfirmComponent } from './components/confirm/confirm.component';
-import { DialogContainerComponent } from './components/dialog-container/dialog-container.component';
-import {PortalModule} from '@angular/cdk/portal';
+import { DialogModule } from './module/dialog';
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    PortalModule,
+    DialogModule,
   ],
-  declarations: [
-    ConfirmComponent,
-    DialogContainerComponent,
-
-  ],
+  declarations: [],
   exports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    ConfirmComponent,
-    DialogContainerComponent,
-    PortalModule,
+    DialogModule,
   ],
-  entryComponents: [
-    ConfirmComponent,
-    DialogContainerComponent,
-  ]
+  entryComponents: []
 })
 export class ShareModule { }

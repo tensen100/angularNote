@@ -1,9 +1,0 @@
-<div>
-  <h1>{{data.name}}</h1>
-  <img
-    [style.opacity]="loading ? 0:1"
-    (load)="onLoad()"
-    [src]="data.url">
-  <button (click)="close()">close</button>
-</div>
-
