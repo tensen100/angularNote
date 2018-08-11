@@ -22,7 +22,7 @@ export enum ConfirmEvent {
 }
 
 
-export type Direction = 'ltr' | 'rtl';
+export type Direction = 'left' | 'right';
 
 export class DialogConfig<D = any> {
   // overlay pane 自定义class

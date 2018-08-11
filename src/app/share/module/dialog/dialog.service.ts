@@ -4,8 +4,10 @@ import {ComponentPortal, ComponentType, PortalInjector, TemplatePortal} from '@a
 import {DEFAULT_CONFIG, DialogConfig, DIALOG_DATA, Confirm, ConfirmEvent, DialogPosition} from './dialogConfig';
 import { DialogContainerComponent } from './dialog-container/dialog-container.component';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
-import { DialogRef} from './dialogRef';
-import {DialogTipsComponent} from './dialog-tips/dialog-tips.component';
+import { DialogRef } from './dialogRef';
+import { DialogTipsComponent } from './dialog-tips/dialog-tips.component';
+import { DialogRightContainerComponent } from './dialog-right-container/dialog-right-container.component';
+import { DialogContainer } from './dialogContainer';
 
 @Injectable()
 export class DialogService {
@@ -39,6 +41,7 @@ export class DialogService {
   confirm(confirmData: Confirm) {
     const confirmRef = this.open(DialogConfirmComponent, {
       width: '500px',
+      direction: 'right',
       data: confirmData});
     confirmRef.afterClosed().subscribe( type => {
       confirmData[type]();
@@ -82,7 +85,7 @@ export class DialogService {
      * close：滚动时自动关闭
      * reposition：重新定位
      */
-    const scrollStrategy = config.scrollStrategy || this.overlay.scrollStrategies.block()
+    const scrollStrategy = config.scrollStrategy || this.overlay.scrollStrategies.block();
 
     return new OverlayConfig({
       hasBackdrop: config.hasBackdrop,
@@ -125,8 +128,14 @@ export class DialogService {
     const injector = new PortalInjector(this.injector, new WeakMap([
       [DialogConfig, config]
     ]));
-    const containerPortal = new ComponentPortal(DialogContainerComponent, null, injector);
-    const containerRef = overlay.attach<DialogContainerComponent>(containerPortal);
+    // let container: ComponentType<any>;
+    // if (config.direction && config.direction === 'right') {
+    //   container = DialogRightContainerComponent;
+    // } else {
+    //   container = DialogContainerComponent;
+    // }
+    const containerPortal = new ComponentPortal(DialogRightContainerComponent, null, injector);
+    const containerRef = overlay.attach<DialogRightContainerComponent>(containerPortal);
     return containerRef.instance;
   }
 

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from './module/dialog';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -11,7 +12,6 @@ import { DialogModule } from './module/dialog';
     FormsModule,
     DialogModule,
   ],
-  declarations: [],
   exports: [
     CommonModule,
     RouterModule,

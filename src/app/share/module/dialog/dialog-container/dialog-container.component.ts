@@ -1,25 +1,7 @@
-import {
-  Component,
-  ComponentRef,
-  EventEmitter,
-  ViewChild,
-  EmbeddedViewRef,
-  OnInit,
-  ElementRef,
-  ComponentFactoryResolver, ApplicationRef, Injector, ViewEncapsulation, ChangeDetectionStrategy, HostBinding, HostListener
-} from '@angular/core';
-import { animate, state, style, transition, trigger, AnimationEvent } from '@angular/animations';
-import {
-  BasePortalOutlet,
-  ComponentPortal,
-  CdkPortalOutlet,
-  TemplatePortal,
-} from '@angular/cdk/portal';
-import {DialogConfig} from '../dialogConfig';
-
-export function throwMatDialogContentAlreadyAttachedError() {
-  throw Error('Attempting to attach dialog content after content is already attached');
-}
+import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { DialogConfig } from '../dialogConfig';
+import { DialogContainer } from '../dialogContainer';
 
 @Component({
   selector: 'app-dialog-container',
@@ -40,38 +22,8 @@ export function throwMatDialogContentAlreadyAttachedError() {
     '[@slideDialog]': 'animationState',
   }
 })
-export class DialogContainerComponent extends BasePortalOutlet {
-  animationState: 'void' | 'enter' | 'exit' = 'enter';
-  animationStateChanged = new EventEmitter<AnimationEvent>();
-  @ViewChild(CdkPortalOutlet) private _portalOutlet: CdkPortalOutlet;
+export class DialogContainerComponent extends DialogContainer {
   constructor(public config: DialogConfig) {
-    super();
+    super(config);
   }
-
-  @HostListener('@slideDialog.start', ['$event'])
-  onAnimationStart(event) {
-    this.animationStateChanged.emit(event);
-  }
-  @HostListener('@slideDialog.done', ['$event'])
-  onAnimationDone(event) {
-    this.animationStateChanged.emit(event);
-  }
-  startExitAnimation() {
-    this.animationState = 'exit';
-  }
-
-  attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
-    if (this._portalOutlet.hasAttached()) {
-      throwMatDialogContentAlreadyAttachedError();
-    }
-    return this._portalOutlet.attachComponentPortal(portal);
-  }
-
-  attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
-    if (this._portalOutlet.hasAttached()) {
-      throwMatDialogContentAlreadyAttachedError();
-    }
-    return this._portalOutlet.attachTemplatePortal(portal);
-  }
-
 }

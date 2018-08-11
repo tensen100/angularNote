@@ -10,6 +10,7 @@ import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { DialogFooterComponent } from './dialog-footer/dialog-footer.component';
 import { DialogContentComponent } from './dialog-content/dialog-content.component';
 import { DialogTipsComponent } from './dialog-tips/dialog-tips.component';
+import {DialogRightContainerComponent} from './dialog-right-container/dialog-right-container.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { DialogTipsComponent } from './dialog-tips/dialog-tips.component';
     DialogHeaderComponent,
     DialogFooterComponent,
     DialogContentComponent,
+    DialogRightContainerComponent,
   ],
   exports: [
     DialogContainerComponent,
@@ -34,12 +36,14 @@ import { DialogTipsComponent } from './dialog-tips/dialog-tips.component';
     DialogHeaderComponent,
     DialogFooterComponent,
     DialogContentComponent,
+    DialogRightContainerComponent,
   ],
   entryComponents: [
     DialogContainerComponent,
     DialogConfirmComponent,
     DialogTipsComponent,
     DialogAlertComponent,
+    DialogRightContainerComponent,
   ],
   providers: [
     DialogService
