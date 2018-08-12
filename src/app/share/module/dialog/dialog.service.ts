@@ -43,9 +43,7 @@ export class DialogService {
       width: '500px',
       direction: 'right',
       data: confirmData});
-    confirmRef.afterClosed().subscribe( type => {
-      confirmData[type]();
-    });
+    confirmRef.afterClosed().subscribe( type => type && confirmData[type]() );
   }
 
   tips(content: string, time: number = 1500) {
@@ -111,13 +109,13 @@ export class DialogService {
   private createInjector<T>(
     config: DialogConfig,
     dialogRef: DialogRef<T>,
-    dialogContainer: DialogContainerComponent
+    dialogContainer: DialogContainer
   ): PortalInjector {
     // 为自定义 令牌实列化新的弱映射
     const injectionTokens = new WeakMap();
 
     // 设置自定义令牌
-    injectionTokens.set(DialogContainerComponent, dialogContainer);
+    injectionTokens.set(DialogContainer, dialogContainer);
     injectionTokens.set(DialogRef, dialogRef);
     injectionTokens.set(DIALOG_DATA, config.data);
     return new PortalInjector(this.injector, injectionTokens);
@@ -128,21 +126,21 @@ export class DialogService {
     const injector = new PortalInjector(this.injector, new WeakMap([
       [DialogConfig, config]
     ]));
-    // let container: ComponentType<any>;
-    // if (config.direction && config.direction === 'right') {
-    //   container = DialogRightContainerComponent;
-    // } else {
-    //   container = DialogContainerComponent;
-    // }
-    const containerPortal = new ComponentPortal(DialogRightContainerComponent, null, injector);
-    const containerRef = overlay.attach<DialogRightContainerComponent>(containerPortal);
+    let container: ComponentType<any>;
+    if (config.direction && config.direction === 'right') {
+      container = DialogRightContainerComponent;
+    } else {
+      container = DialogContainerComponent;
+    }
+    const containerPortal = new ComponentPortal(container, null, injector);
+    const containerRef = overlay.attach<DialogContainer>(containerPortal);
     return containerRef.instance;
   }
 
   // 把传入的组件添加到容器中
   private attachDialogContent<T, R>(
     componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
-    dialogContainer: DialogContainerComponent,
+    dialogContainer: DialogContainer,
     overlayRef: OverlayRef,
     config: DialogConfig): DialogRef<T, R> {
     const  dialogRef = new DialogRef<T, R>(overlayRef, dialogContainer);

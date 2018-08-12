@@ -1,8 +1,7 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import { Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { DialogContainerComponent } from './dialog-container/dialog-container.component';
-import {DialogRightContainerComponent} from './dialog-right-container/dialog-right-container.component';
+import { DialogContainer } from './dialogContainer';
 
 const ESCAPE = 27;
 export class DialogRef<T, R = any> {
@@ -14,7 +13,7 @@ export class DialogRef<T, R = any> {
   private readonly _afterClosed = new Subject<R | undefined>();
   constructor(
     private _overlayRef: OverlayRef,
-    private _containerInstance: DialogRightContainerComponent
+    private _containerInstance: DialogContainer
   ) {
     // 打开后
     _containerInstance.animationStateChanged.pipe(
