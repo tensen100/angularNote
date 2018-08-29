@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from './module/dialog';
+import { SelectComponent } from './components/select/select.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,11 @@ import { DialogModule } from './module/dialog';
     RouterModule,
     FormsModule,
     DialogModule,
+    SelectComponent
   ],
-  entryComponents: []
+  entryComponents: [],
+  declarations: [
+    SelectComponent
+  ]
 })
 export class ShareModule { }

@@ -1,0 +1,20 @@
+<ul class="select-list"
+    [style.transform]="'translateY('+ offsetY +'px)'"
+    [style.transition]="transition"
+    (touchstart)="touchStartHandle($event)"
+    (touchend)="touchEndHandle($event)"
+    (touchmove)="touchMoveHandle($event)">
+  <li class="select-item"></li>
+  <li class="select-item"></li>
+  <li class="select-item">四川</li>
+  <li class="select-item">重庆</li>
+  <li class="select-item">云南</li>
+  <li class="select-item">贵州</li>
+  <li class="select-item">上海</li>
+  <li class="select-item">浙江</li>
+  <li class="select-item"></li>
+  <li class="select-item"></li>
+</ul>
+<div class="select-mask top"></div>
+<div class="select-mask middle"></div>
+<div class="select-mask bottom"></div>
